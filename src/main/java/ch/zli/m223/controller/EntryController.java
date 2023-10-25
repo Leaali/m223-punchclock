@@ -4,11 +4,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+// import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -25,9 +30,28 @@ public class EntryController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Index all Entries.", description = "Returns a list of all entries.")
-    public List<Entry> index() {
-        return entryService.findAll();
+    @Operation(summary = "Index all Entries.", description = "Returns a list of all entries.") // Swagger informationen
+    public List<Entry> index() { // Liste und in der - GEnerische liste mit entrys
+        return entryService.findAll(); // ruft funktion auf
+    }
+
+    // public Entry update(@PathParam("id") Long id) //benötigt .merge methode
+    // (schaut wo selbe id ist und verändert diese)
+    @PUT
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Update an entry", description = "Updates an entry with the specified ID and returns the updated entry.")
+    public Entry update(@PathParam("id") Long id, Entry entry) {
+        return entryService.updateEntry(id, entry);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Operation(summary = "Delete an entry", description = "Deletes an entry with the specified ID.")
+    public Response delete(@PathParam("id") Long id) {
+        entryService.deleteEntry(id);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @POST
@@ -35,7 +59,7 @@ public class EntryController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Creates a new entry.", description = "Creates a new entry and returns the newly added entry.")
     public Entry create(Entry entry) {
-       return entryService.createEntry(entry);
+        return entryService.createEntry(entry);
     }
 
 }
