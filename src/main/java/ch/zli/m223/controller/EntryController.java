@@ -35,8 +35,6 @@ public class EntryController {
         return entryService.findAll(); // ruft funktion auf
     }
 
-    // public Entry update(@PathParam("id") Long id) //benötigt .merge methode
-    // (schaut wo selbe id ist und verändert diese)
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)

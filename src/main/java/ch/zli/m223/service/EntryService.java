@@ -28,6 +28,7 @@ public class EntryService {
     }
     @Transactional
     public Entry updateEntry(Long id, Entry entry){
+        entry.setId(id);
         // Man könnte hier testen, ob die ID übereinstimmen
         return entityManager.merge(entry);
     }
