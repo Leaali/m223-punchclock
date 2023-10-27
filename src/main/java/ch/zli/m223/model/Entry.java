@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +35,9 @@ public class Entry {
   @ManyToOne
   private Category category; // ToOne = keine liste
 
+  @ManyToOne
+  private ApplicationUser applicationUser; // ToOne = keine liste
+
   @ManyToMany
   @JoinTable(
     name = "entry_tag",
@@ -44,9 +46,6 @@ public class Entry {
     )
   @JsonIgnoreProperties("entries")
   private Set<Tag> tags; //ToMAny = liste
-
-
-
 
 
   //GETTER SETTER
